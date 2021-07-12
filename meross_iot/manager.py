@@ -50,6 +50,7 @@ class MerossManager(object):
                  http_client: MerossHttpClient,
                  auto_reconnect: Optional[bool] = True,
                  domain: Optional[str] = "iot.meross.com",
+                 mqtt_domain: Optional[str] = "mqtt-ap.meross.com",
                  port: Optional[int] = 2001,
                  ca_cert: Optional[str] = None,
                  loop: Optional[AbstractEventLoop] = None,
@@ -65,6 +66,7 @@ class MerossManager(object):
         self._cloud_creds = self._http_client.cloud_credentials
         self._auto_reconnect = auto_reconnect
         self._domain = domain
+        self._mqtt_domain = mqtt_domain
         self._port = port
         self._ca_cert = ca_cert
         self._app_id, self._client_id = generate_client_and_app_id()
@@ -197,7 +199,7 @@ class MerossManager(object):
             raise RuntimeError("Manager was already initialized.")
 
         _LOGGER.info("Initializing the MQTT connection...")
-        self._mqtt_client.connect(host=self._domain, port=self._port, keepalive=30)
+        self._mqtt_client.connect(host=self._mqtt_domain, port=self._port, keepalive=30)
 
         # Starts a new thread that handles mqtt protocol and calls us back via callbacks
         _LOGGER.debug("Starting the MQTT looper.")

@@ -37,7 +37,11 @@ class ElectricityMixin(object):
         """
         result = await self._execute_command(method="GET",
                                              namespace=Namespace.CONTROL_ELECTRICITY,
-                                             payload={'channel': channel},
+                                             payload= {
+                                                 "electricity": {
+                                                     "channel": channel
+                                                    }
+                                                },
                                              skip_rate_limits=skip_rate_limits,
                                              drop_on_overquota=drop_on_overquota)
         data = result.get('electricity')
